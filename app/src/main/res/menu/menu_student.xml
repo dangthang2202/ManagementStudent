@@ -1,0 +1,14 @@
+<!-- res/menu/menu_student.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_add_student"
+        android:title="Thêm sinh viên"
+        android:icon="@drawable/outline_add_24"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_logout"
+        android:title="Đăng xuất"
+        android:icon="@drawable/outline_arrow_back_24"
+        app:showAsAction="never" />
+</menu>

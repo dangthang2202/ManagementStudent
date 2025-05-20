@@ -1,16 +1,23 @@
 package com.example.managementstudent.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.managementstudent.DetailStudentActivity;
 import com.example.managementstudent.R;
+import com.example.managementstudent.StudentActivity;
 import com.example.managementstudent.model.Student;
 import com.example.managementstudent.viewHolder.StudentViewHolder;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,11 +46,39 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
-        holder.imvStudent.setImageURI(Uri.parse(studentList.get(position).getImgStudent()));
-
-        holder.tvAgeStudent.setText(calculateAge(studentList.get(position).getBirthDay()) + "");
+        Student student = studentList.get(position);
+        Glide.with(holder.itemView.getContext())
+            .load(student.getImgStudent())
+            .placeholder(R.drawable.loading)
+            .error(R.drawable.error_image)
+            .circleCrop()
+            .into(holder.imvStudent);
+        holder.tvAgeStudent.setText(calculateAge(studentList.get(position).getBirthDay()) + " tuổi");
         holder.tvNameStudent.setText(studentList.get(position).getName());
         holder.tvClassStudent.setText(studentList.get(position).getClassName());
+
+        holder.btnDeleteStudent.setOnClickListener(v -> {
+            FirebaseFirestore.getInstance()
+                    .collection("Students")
+                    .document(student.getId()) // đảm bảo student có trường id
+                    .delete()
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(context, "Xoá thành công", Toast.LENGTH_SHORT).show();
+                        studentList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, studentList.size());
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Xoá thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                    );
+        });
+
+        holder.btnDetailStudent.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailStudentActivity.class);
+            intent.putExtra("ID",student.getId());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        });
     }
 
     @Override

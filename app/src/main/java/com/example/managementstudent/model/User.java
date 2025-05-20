@@ -7,26 +7,35 @@ public class User {
     private String position;
     private String status;
     private String linkImage;
+    private String birthDay;
+    private String phoneNumber;
     private String username;
     private String password;
 
-    public User(String id, String name, String position, String status, String linkImage, String username, String password) {
+    public User(String id, String name, String position, String status, String linkImage, String birthDay, String phoneNumber, String username, String password) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.status = status;
         this.linkImage = linkImage;
+        this.birthDay = birthDay;
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.password = password;
     }
 
-    public User(String name, String position, String status, String linkImage, String username, String password) {
+    public User(String name, String position, String status, String linkImage, String birthDay, String phoneNumber, String username, String password) {
         this.name = name;
         this.position = position;
         this.status = status;
         this.linkImage = linkImage;
+        this.birthDay = birthDay;
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.password = password;
+    }
+
+    public User() {
     }
 
     public String getId() {
@@ -67,6 +76,22 @@ public class User {
 
     public void setLinkImage(String linkImage) {
         this.linkImage = linkImage;
+    }
+
+    public String getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
