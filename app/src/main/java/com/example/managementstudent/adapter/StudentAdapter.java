@@ -32,7 +32,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentViewHolder> {
 
     Context context;
     List<Student> studentList;
-
     public StudentAdapter(Context context, List<Student> studentList) {
         this.context = context;
         this.studentList = studentList;
@@ -59,8 +58,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentViewHolder> {
 
         holder.btnDeleteStudent.setOnClickListener(v -> {
             FirebaseFirestore.getInstance()
-                    .collection("Students")
-                    .document(student.getId()) // đảm bảo student có trường id
+                    .collection("students")
+                    .document(studentList.get(position).getId()) // đảm bảo student có trường id
                     .delete()
                     .addOnSuccessListener(unused -> {
                         Toast.makeText(context, "Xoá thành công", Toast.LENGTH_SHORT).show();
@@ -75,7 +74,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentViewHolder> {
 
         holder.btnDetailStudent.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailStudentActivity.class);
-            intent.putExtra("ID",student.getId());
+            intent.putExtra("ID",studentList.get(position).getId());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
